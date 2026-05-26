@@ -390,6 +390,11 @@ function normalizeState(nextState) {
     parsed.matches = structuredClone(defaultState.matches);
     parsed.predictions = {};
   }
+  parsed.matches = parsed.matches.map((match) => ({
+    ...match,
+    homeScore: match.homeScore ?? null,
+    awayScore: match.awayScore ?? null,
+  }));
   return parsed;
 }
 
@@ -404,16 +409,20 @@ function getNumberOrNull(value) {
   return value === "" || value === null || Number.isNaN(Number(value)) ? null : Number(value);
 }
 
+function hasScore(matchOrPrediction) {
+  return matchOrPrediction?.homeScore != null && matchOrPrediction?.awayScore != null;
+}
+
 function matchWinner(match) {
-  if (match.homeScore === null || match.awayScore === null) return null;
+  if (!hasScore(match)) return null;
   if (match.homeScore > match.awayScore) return "home";
   if (match.homeScore < match.awayScore) return "away";
   return "draw";
 }
 
 function scorePrediction(prediction, match) {
-  if (!prediction || prediction.homeScore === null || prediction.awayScore === null) return 0;
-  if (match.homeScore === null || match.awayScore === null) return 0;
+  if (!hasScore(prediction)) return 0;
+  if (!hasScore(match)) return 0;
 
   let points = 0;
   const predictedWinner =
@@ -444,10 +453,10 @@ function calculateRanking() {
     .map((player, order) => {
       const stats = { player, order, points: 0, exact: 0, winner: 0, draw: 0, miss: 0 };
       state.matches.forEach((match) => {
-        if (match.homeScore === null || match.awayScore === null) return;
+        if (!hasScore(match)) return;
         const prediction = getPrediction(player, match.id);
         const points = scorePrediction(prediction, match);
-        if (prediction.homeScore === null || prediction.awayScore === null) {
+        if (!hasScore(prediction)) {
           stats.miss += 1;
           return;
         }
@@ -486,7 +495,7 @@ function render() {
 
 function renderSummary() {
   const ranking = calculateRanking();
-  const finishedMatches = state.matches.filter((match) => match.homeScore !== null && match.awayScore !== null).length;
+  const finishedMatches = state.matches.filter(hasScore).length;
   els.summaryMatches.textContent = state.matches.length;
   els.summaryFinished.textContent = finishedMatches;
   els.summaryLeader.textContent = finishedMatches > 0 && ranking[0] ? `${ranking[0].player} (${ranking[0].points})` : "-";
@@ -522,8 +531,7 @@ function renderMatches() {
     setFlag(node.querySelector(".away-flag"), match.away);
     node.querySelector(".home-team").textContent = match.home;
     node.querySelector(".away-team").textContent = match.away;
-    node.querySelector(".score").textContent =
-      match.homeScore === null || match.awayScore === null ? "Pend." : `${match.homeScore} - ${match.awayScore}`;
+    node.querySelector(".score").textContent = hasScore(match) ? `${match.homeScore} - ${match.awayScore}` : "Pend.";
     node.querySelector(".edit-match").addEventListener("click", () => openMatchDialog(match));
     node.querySelector(".delete-match").addEventListener("click", () => deleteMatch(match.id));
     els.matchesList.append(node);
