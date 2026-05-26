@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiniela Mundialista</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__media" aria-hidden="true"></div>
+      <nav class="topbar">
+        <div class="brand">
+          <img class="brand__logo" src="assets/logo-oficial.jpeg" alt="26 FIFA RG Corporacion" />
+          <div>
+            <strong>Quiniela Mundialista</strong>
+            <span>Fase de grupos</span>
+          </div>
+        </div>
+        <div class="topbar__actions">
+          <button class="admin-toggle" id="adminToggle">Modo admin</button>
+        </div>
+      </nav>
+      <div class="hero__content">
+        <p class="eyebrow">Mundial 2026</p>
+        <h1>Quiniela de la fase de grupos</h1>
+        <p class="hero__copy">Consulta resultados, predicciones y puntos en vivo. El admin actualiza marcadores y el ranking se calcula automáticamente.</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary-strip" aria-label="Resumen">
+        <div>
+          <span class="summary-strip__label">Partidos</span>
+          <strong id="summaryMatches">0</strong>
+        </div>
+        <div>
+          <span class="summary-strip__label">Con resultado</span>
+          <strong id="summaryFinished">0</strong>
+        </div>
+        <div>
+          <span class="summary-strip__label">Lider actual</span>
+          <strong id="summaryLeader">-</strong>
+        </div>
+      </section>
+
+      <section class="tabs" aria-label="Vistas de la quiniela">
+        <button class="tab is-active" data-tab="ranking">Ranking</button>
+        <button class="tab" data-tab="matches">Partidos</button>
+        <button class="tab" data-tab="predictions">Predicciones</button>
+        <button class="tab" data-tab="rules">Premios y reglas</button>
+      </section>
+
+      <section class="view is-active" id="rankingView">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Tabla general</p>
+            <h2>Puntos por integrante</h2>
+          </div>
+          <span class="pill">Exacto 5 pts · Ganador 3 pts · Empate 1 pt</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pos.</th>
+                <th>Integrante</th>
+                <th>Puntos</th>
+                <th>Exactos</th>
+                <th>Ganador</th>
+                <th>Empates</th>
+                <th>Fallos</th>
+              </tr>
+            </thead>
+            <tbody id="rankingBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="matchesView">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Calendario</p>
+            <h2>Resultados de partidos</h2>
+          </div>
+          <button class="primary admin-only" id="addMatchBtn">Agregar partido</button>
+        </div>
+        <div class="match-grid" id="matchesList"></div>
+      </section>
+
+      <section class="view" id="predictionsView">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Captura</p>
+            <h2>Predicciones por integrante</h2>
+          </div>
+          <div class="select-row">
+            <label for="playerSelect">Integrante</label>
+            <select id="playerSelect"></select>
+            <label for="dateFilter">Fecha</label>
+            <select id="dateFilter"></select>
+            <label for="matchFilter">Partido</label>
+            <select id="matchFilter"></select>
+          </div>
+        </div>
+        <div class="prediction-list" id="predictionList"></div>
+      </section>
+
+      <section class="view" id="rulesView">
+        <div class="info-layout">
+          <article>
+            <div class="section-heading section-heading--compact">
+              <div>
+                <p class="eyebrow">Premios</p>
+                <h2>Bolsa</h2>
+              </div>
+              <button class="ghost admin-only" id="addPrizeBtn">Agregar premio</button>
+            </div>
+            <div class="simple-list" id="prizeList"></div>
+          </article>
+          <article>
+            <div class="section-heading section-heading--compact">
+              <div>
+                <p class="eyebrow">Reglas</p>
+                <h2>Puntuacion</h2>
+              </div>
+            </div>
+            <div class="rule-list">
+              <div><strong>Resultado exacto</strong><span>5 pts.</span></div>
+              <div><strong>Ganador correcto</strong><span>3 pts.</span></div>
+              <div><strong>Empate correcto</strong><span>1 pt.</span></div>
+              <div><strong>Falla todo</strong><span>0 pts.</span></div>
+            </div>
+          </article>
+          <article>
+            <div class="section-heading section-heading--compact">
+              <div>
+                <p class="eyebrow">Participantes</p>
+                <h2>Integrantes</h2>
+              </div>
+              <button class="ghost admin-only" id="addPlayerBtn">Agregar</button>
+            </div>
+            <div class="simple-list" id="playerList"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="matchDialog">
+      <form method="dialog" class="dialog-card" id="matchForm">
+        <div class="dialog-card__header">
+          <h3 id="matchDialogTitle">Agregar partido</h3>
+          <button class="icon-button" value="cancel" aria-label="Cerrar"><span data-icon="x"></span></button>
+        </div>
+        <input type="hidden" id="matchId" />
+        <label>Grupo <input id="matchGroup" maxlength="12" placeholder="Grupo A" required /></label>
+        <label>Fecha <input id="matchDate" type="date" /></label>
+        <label>Hora <input id="matchTime" type="time" /></label>
+        <label>Estadio <input id="matchVenue" placeholder="Estadio Ciudad de Mexico" /></label>
+        <label>Equipo local <input id="matchHome" placeholder="Mexico" required /></label>
+        <label>Equipo visitante <input id="matchAway" placeholder="Canada" required /></label>
+        <div class="score-row">
+          <label>Goles local <input id="matchHomeScore" type="number" min="0" placeholder="-" /></label>
+          <label>Goles visitante <input id="matchAwayScore" type="number" min="0" placeholder="-" /></label>
+        </div>
+        <div class="dialog-card__actions">
+          <button class="ghost" value="cancel">Cancelar</button>
+          <button class="primary" id="saveMatchBtn" value="default">Guardar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="adminDialog">
+      <form method="dialog" class="dialog-card" id="adminForm">
+        <div class="dialog-card__header">
+          <h3>Modo admin</h3>
+          <button class="icon-button" value="cancel" aria-label="Cerrar"><span data-icon="x"></span></button>
+        </div>
+        <label>Codigo de acceso <input id="adminCode" type="password" inputmode="numeric" autocomplete="new-password" /></label>
+        <p class="form-message" id="adminMessage"></p>
+        <div class="dialog-card__actions">
+          <button class="ghost" value="cancel">Cancelar</button>
+          <button class="primary" id="unlockAdminBtn" value="default">Entrar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="matchTemplate">
+      <article class="match-card">
+        <div class="match-card__top">
+          <span class="pill match-group"></span>
+          <span class="match-date"></span>
+        </div>
+        <span class="match-venue"></span>
+        <div class="scoreboard">
+          <span class="team team--home"><img class="flag home-flag" alt="" /><span class="home-team"></span></span>
+          <strong class="score"></strong>
+          <span class="team team--away"><span class="away-team"></span><img class="flag away-flag" alt="" /></span>
+        </div>
+        <div class="match-card__actions admin-only">
+          <button class="ghost edit-match">Editar</button>
+          <button class="danger delete-match">Eliminar</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

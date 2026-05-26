@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" role="img" aria-labelledby="title">
+  <title id="title">RG Corporacion</title>
+  <rect width="900" height="650" fill="#fff"/>
+  <g fill="#b87c24">
+    <text x="46" y="500" font-family="Georgia, 'Times New Roman', serif" font-size="530" font-weight="700">R</text>
+    <text x="440" y="500" font-family="Georgia, 'Times New Roman', serif" font-size="530" font-weight="700">G</text>
+    <g transform="translate(380 0)">
+      <rect x="45" y="90" width="12" height="250" rx="6"/>
+      <path d="M51 4c34 36 34 69 0 101c-34-32-34-65 0-101z"/>
+      <path d="M35 151c-44-6-66-35-64-83c49 12 72 41 64 83z"/>
+      <path d="M67 151c44-6 66-35 64-83c-49 12-72 41-64 83z"/>
+      <path d="M35 235c-44-6-66-35-64-83c49 12 72 41 64 83z"/>
+      <path d="M67 235c44-6 66-35 64-83c-49 12-72 41-64 83z"/>
+      <path d="M35 320c-44-6-66-35-64-83c49 12 72 41 64 83z"/>
+      <path d="M67 320c44-6 66-35 64-83c-49 12-72 41-64 83z"/>
+    </g>
+    <text x="55" y="620" font-family="Arial, Helvetica, sans-serif" font-size="104" font-weight="800">CORPORACION</text>
+  </g>
+</svg>
