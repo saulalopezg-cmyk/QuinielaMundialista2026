@@ -597,15 +597,34 @@ function renderPredictions() {
     const row = document.createElement("div");
     row.className = "prediction-row";
     row.innerHTML = `
-      <strong class="prediction-teams">
-        <span><img class="flag prediction-home-flag" alt="" />${escapeHtml(match.home)}</span>
-        <small>vs</small>
-        <span>${escapeHtml(match.away)}<img class="flag prediction-away-flag" alt="" /></span>
-      </strong>
-      <input ${state.admin ? "" : "disabled"} type="number" min="0" value="${prediction.homeScore ?? ""}" aria-label="Prediccion ${escapeHtml(match.home)}" />
-      <input ${state.admin ? "" : "disabled"} type="number" min="0" value="${prediction.awayScore ?? ""}" aria-label="Prediccion ${escapeHtml(match.away)}" />
-      <span class="prediction-points">${scorePrediction(prediction, match)} pts</span>
-    `;
+  <div class="prediction-match">
+    <div class="team-left">
+      <img class="flag prediction-home-flag" alt="" />
+      <span>${escapeHtml(match.home)}</span>
+    </div>
+
+    <input ${state.admin ? "" : "disabled"}
+      type="number"
+      min="0"
+      value="${prediction.homeScore ?? ""}" />
+
+    <span class="vs-text">VS</span>
+
+    <input ${state.admin ? "" : "disabled"}
+      type="number"
+      min="0"
+      value="${prediction.awayScore ?? ""}" />
+
+    <div class="team-right">
+      <span>${escapeHtml(match.away)}</span>
+      <img class="flag prediction-away-flag" alt="" />
+    </div>
+
+    <span class="prediction-points">
+      ${scorePrediction(prediction, match)} pts
+    </span>
+  </div>
+`;
     setFlag(row.querySelector(".prediction-home-flag"), match.home);
     setFlag(row.querySelector(".prediction-away-flag"), match.away);
     const inputs = row.querySelectorAll("input");

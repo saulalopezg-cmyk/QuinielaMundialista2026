@@ -404,11 +404,40 @@ tbody tr:last-child td {
 
 .prediction-row {
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) 84px 84px minmax(84px, auto);
-  gap: 12px;
+  grid-template-columns:
+      minmax(180px,1fr)
+      70px
+      50px
+      70px
+      minmax(180px,1fr)
+      80px;
+
   align-items: center;
+  gap: 12px;
   padding: 14px 16px;
   border-bottom: 1px solid var(--line);
+}
+.prediction-team-left,
+.prediction-team-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:700;
+}
+
+.prediction-team-right{
+  justify-content:flex-end;
+}
+
+.prediction-vs{
+  text-align:center;
+  font-weight:800;
+  color:var(--muted);
+}
+
+.prediction-row input{
+  width:70px;
+  text-align:center;
 }
 
 .prediction-teams {
