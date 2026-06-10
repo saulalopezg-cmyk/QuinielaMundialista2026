@@ -694,3 +694,38 @@ dialog::backdrop {
 
 }
 }
+.prediction-match{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    width:100%;
+}
+
+.team-left,
+.team-right{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:700;
+    min-width:220px;
+}
+
+.team-right{
+    justify-content:flex-end;
+}
+
+.vs-text{
+    font-weight:800;
+    color:var(--muted);
+}
+
+.prediction-match input{
+    width:70px !important;
+    text-align:center;
+}
+
+.prediction-points{
+    min-width:60px;
+    text-align:right;
+}
