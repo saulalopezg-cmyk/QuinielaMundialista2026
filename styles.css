@@ -729,3 +729,50 @@ dialog::backdrop {
     min-width:60px;
     text-align:right;
 }
+
+@media (max-width: 768px){
+
+  .prediction-match{
+    display:grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap:8px;
+    align-items:center;
+  }
+
+  .team-left,
+  .team-right{
+    min-width:0;
+    font-size:14px;
+    font-weight:700;
+  }
+
+  .team-left span,
+  .team-right span{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .prediction-match input{
+    width:50px !important;
+    min-width:50px;
+    padding:0;
+    text-align:center;
+  }
+
+  .vs-text{
+    font-size:14px;
+  }
+
+  .prediction-points{
+    grid-column:1 / -1;
+    text-align:center;
+    margin-top:6px;
+  }
+
+  .flag{
+    width:24px;
+    height:18px;
+  }
+
+}
