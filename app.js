@@ -430,7 +430,7 @@ function scorePrediction(prediction, match) {
   const actualWinner = matchWinner(match);
 
   if (prediction.homeScore === match.homeScore && prediction.awayScore === match.awayScore) points += 5;
-  if (actualWinner === "draw" && predictedWinner === "draw") points += 1;
+  if (actualWinner === "draw" && predictedWinner === "draw") points += 3;
   if (actualWinner !== "draw" && predictedWinner === actualWinner) points += 3;
 
   return points;
